@@ -1,4 +1,4 @@
-package model;
+package zoll_h1.com.travel_planer.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
