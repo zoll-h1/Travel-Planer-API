@@ -19,7 +19,7 @@ public interface TripRepository {
     Optional<Trip> findByIdAndUserId(Long id, Long userId);
 
     @Query("SELECT t FROM trip WHERE t.user.id = :user.Id AND t.startDate > :currenDate ORDER BY t.startDAte ASC")
-    List<Trip> finidUpcomingTrips(@Param("user_id") Long userId, @Param("currentDate") LocalDate currentDate);
+    List<Trip> finIdUpcomingTrips(@Param("user_id") Long userId, @Param("currentDate") LocalDate currentDate);
 
     long countByUserId(Long userId);
 
