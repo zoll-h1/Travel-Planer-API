@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TripSummmaryResponse {
+public class TripSummaryResponse {
         private Long id;
         private String title;
         private String destination;
