@@ -34,7 +34,7 @@ public class UpdateTripRequest {
     private LocalDate endDate;
 
     @DecimalMin(value = "0.0" , inclusive = true, message = "Budget must be positive")
-    @Digits(integer = 8, fraction = 2, message = "Budget must not have at most 8 digits and 2 decinal places")
+    @Digits(integer = 8, fraction = 2, message = "Budget must not have at most 8 digits and 2 decimal places")
     private BigDecimal budget;
 
     @NotNull(message = "Status is required")

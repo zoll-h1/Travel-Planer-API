@@ -15,8 +15,11 @@ import java.time.LocalDate;
 
 public class ActivityResponse {
 
+    private Long id;
     private String name;
     private ActivityType type;
-    private BigDecimal cost;
     private LocalDate activityDate;
+    private BigDecimal cost;
+    private String notes;
+    private Long tripId;
 }

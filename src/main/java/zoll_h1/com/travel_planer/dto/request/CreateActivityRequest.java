@@ -27,6 +27,6 @@ public class CreateActivityRequest {
     @Digits(integer = 8, fraction = 2, message = "Cost must have at most 8 digits and 2 decimal places")
     private BigDecimal cost;
 
-    @Size(max = 5000, message = "Notes msut not be exceed 5000 characters")
+    @Size(max = 5000, message = "Notes must not be exceed 5000 characters")
     private String notes;
 }
