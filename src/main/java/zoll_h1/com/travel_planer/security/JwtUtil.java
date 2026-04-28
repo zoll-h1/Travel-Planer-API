@@ -12,9 +12,14 @@ import java.util.function.Function;
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
-
     @Value("${jwt.expiration}")
     private long jwtExpiration;
+
+    private javax.crypto.SecretKey getSigningKey() {
+        return io.jsonwebtoken.security.Keys.hmacShaKeyFor(
+                secretKey.getBytes(java.nio.charset.StandardCharsets.UTF_8)
+        );
+    }
 
     public String generateToken(String username){
         return Jwts.builder()
