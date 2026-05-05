@@ -16,7 +16,7 @@ import zoll_h1.com.travel_planer.repository.UserRepository;
 import zoll_h1.com.travel_planer.security.JwtUtil;
 
 @Service
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -49,7 +49,7 @@ public class AuthServiceImpl {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         User saved = userRepository.save(user);
 
@@ -57,6 +57,7 @@ public class AuthServiceImpl {
         return mapToUserResponse(saved);
     }
 
+    @Override
     public LoginResponse login(LoginRequest request) {
         try {
             // Authentication of User
@@ -95,7 +96,7 @@ public class AuthServiceImpl {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getCreateAt()
+                user.getCreatedAt()
         );
     }
 }

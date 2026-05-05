@@ -37,7 +37,7 @@ public class Trip {
     private LocalDate endDate;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal bidget;
+    private BigDecimal budget;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -52,6 +52,6 @@ public class Trip {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
 }

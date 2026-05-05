@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ActivityRepository {
+public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<Activity> findByTripId(Long tripId);
 
     Optional<Activity> findByIdAndTripId(long id, Long tripId);
