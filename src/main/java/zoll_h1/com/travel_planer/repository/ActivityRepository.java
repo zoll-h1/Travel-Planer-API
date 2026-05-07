@@ -24,4 +24,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     BigDecimal calculateTotalCost(@Param("tripId") Long tripId);
 
     long countByTripId(Long tripId);
+
 }
