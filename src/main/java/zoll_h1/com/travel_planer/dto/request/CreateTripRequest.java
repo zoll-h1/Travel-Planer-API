@@ -20,7 +20,7 @@ public class CreateTripRequest {
     private String title;
 
     @NotBlank(message = "Destination is required")
-    @Size(max = 100, message = "Destination msut not exceed 100 characters")
+    @Size(max = 100, message = "Destination must not exceed 100 characters")
     private String destination;
 
     @Size(max = 5000, message = "Description must not exceed 5000 characters")
