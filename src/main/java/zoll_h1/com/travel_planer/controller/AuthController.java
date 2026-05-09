@@ -1,5 +1,6 @@
 package zoll_h1.com.travel_planer.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import zoll_h1.com.travel_planer.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "User registration, login, and profile endpoints")
 public class AuthController {
     private final AuthService authService;
 

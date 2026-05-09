@@ -1,5 +1,7 @@
 package zoll_h1.com.travel_planer.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/trips")
+@Tag(name = "Trips", description = "CRUD operations for travel trips, upcoming trips, and statistics")
+@SecurityRequirement(name = "bearerAuth")
 public class TripController {
     private final TripService tripService;
 
