@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.error("JWT Token extraction failed: " + e.getMessage());
             }
         }
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // Loading user details from database
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             // Validation of token
