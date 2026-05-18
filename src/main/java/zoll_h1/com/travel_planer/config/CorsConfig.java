@@ -16,7 +16,7 @@ public class CorsConfig {
                 registry
                         .addMapping("/api/**") // Apply CORS to all /api/* endpoints
 
-                        .allowedOrigins("http://localhost:5173") // React dev server
+                        .allowedOrigins("http://localhost:5173", "http://localhost:5174") // React dev server
 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 
