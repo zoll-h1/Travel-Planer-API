@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import zoll_h1.com.travel_planer.dto.request.CreateActivityRequest;
 import zoll_h1.com.travel_planer.dto.request.UpdateActivityRequest;
 import zoll_h1.com.travel_planer.dto.response.ActivityResponse;
+import zoll_h1.com.travel_planer.exception.ForbiddenException;
+import zoll_h1.com.travel_planer.exception.ResourceNotFoundException;
 import zoll_h1.com.travel_planer.model.Activity;
 import zoll_h1.com.travel_planer.model.Trip;
 import zoll_h1.com.travel_planer.model.User;
@@ -36,11 +38,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ActivityResponse addActivity(Long tripId, CreateActivityRequest request, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
+        if(!trip.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException("You are not allowed to this trip");
+        }
         // Creation of a new Activity
         Activity activity = new Activity();
         activity.setName(request.getName());
@@ -58,11 +63,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<ActivityResponse> getAllActivities(Long tripId, String userEmail) {
      User user = userRepository.findByEmail(userEmail)
-             .orElseThrow(() -> new RuntimeException("User not found"));
+             .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
      Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-             .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+             .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
+     if(!trip.getUser().getId().equals(user.getId())) {
+         throw new ForbiddenException("You are not allowed to this trip");
+     }
      // Getting all activities for this trip
      List<Activity> activities = activityRepository.findByTripId(tripId);
 
@@ -74,14 +82,17 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ActivityResponse getActivityById(Long tripId, Long activityId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
         Activity activity = activityRepository.findByIdAndTripId(activityId, tripId)
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Activity not found"));
 
+        if(!trip.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException("You are not allowed to this trip");
+        }
         return mapToActivityResponse(activity);
     }
 
@@ -89,14 +100,17 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivityResponse updateActivity(Long tripId, Long activityId, UpdateActivityRequest request, String userEmail) {
 
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
         Activity activity = activityRepository.findByIdAndTripId(activityId, tripId)
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Activity not found"));
 
+        if(!trip.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException("You are not allowed to this trip");
+        }
         // Updating fields(only if provided in request)
         if(request.getName() != null) {
             activity.setName(request.getName());
@@ -121,14 +135,17 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void deleteActivity(Long tripId, Long activityId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
         Activity activity = activityRepository.findByIdAndTripId(activityId, tripId)
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Activity not found"));
 
+        if(!trip.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException("You are not allowed to this trip");
+        }
         activityRepository.delete(activity);
     }
     // Helper : Convert Activity entity to ActivityResponse DTO

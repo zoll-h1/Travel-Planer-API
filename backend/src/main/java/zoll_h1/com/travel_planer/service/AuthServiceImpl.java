@@ -11,6 +11,7 @@ import zoll_h1.com.travel_planer.dto.request.RegisterRequest;
 import zoll_h1.com.travel_planer.dto.request.UpdateProfileRequest;
 import zoll_h1.com.travel_planer.dto.response.LoginResponse;
 import zoll_h1.com.travel_planer.dto.response.UserResponse;
+import zoll_h1.com.travel_planer.exception.ForbiddenException;
 import zoll_h1.com.travel_planer.exception.ResourceNotFoundException;
 import zoll_h1.com.travel_planer.exception.UnauthorizedException;
 import zoll_h1.com.travel_planer.exception.ValidationException;
@@ -99,7 +100,7 @@ public class AuthServiceImpl implements AuthService{
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if(request.getUsername() != null && !request.getUsername().equals(user.getUsername())) {
             if(userRepository.existsByUsername(request.getUsername())) {
-                throw new ValidationException("Username already taken");
+                throw new ForbiddenException("Username already taken");
             }
         user.setUsername(request.getUsername());
         }

@@ -38,17 +38,21 @@ public class SecurityConfig {
                // Not needed for jwt-based stateless API'S
                .csrf(csrf -> csrf.disable())
            // Configuration of authorization rules
-               .authorizeHttpRequests(auth -> auth
-                       .requestMatchers("/api/auth/**").permitAll()
-                       .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                       .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                       .anyRequest().authenticated()
-               )
-               .sessionManagement(session -> session
-                       .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-               )
-               .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-       return http.build();
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.disable())
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
     // Password Encoder Bean
     // Uses BCrypt hashing algorithm - industry standart for password storage
