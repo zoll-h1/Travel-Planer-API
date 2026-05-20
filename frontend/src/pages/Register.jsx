@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { User, Mail, Lock, Plane, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 const Field = ({ label, name, type = 'text', icon: Icon, placeholder, value, onChange, showToggle, showPassword, onToggle }) => (

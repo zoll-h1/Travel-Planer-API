@@ -40,6 +40,8 @@ apiClient.interceptors.response.use(
 export const authAPI = {
   register: (userData) => apiClient.post('/api/auth/register', userData),
   login: (credentials) => apiClient.post('/api/auth/login', credentials),
+  getCurrentUser: () => apiClient.get('/api/auth/me'),
+  updateProfile: (profileData) => apiClient.put('/api/auth/me', profileData),
 };
 
 // Trip API
