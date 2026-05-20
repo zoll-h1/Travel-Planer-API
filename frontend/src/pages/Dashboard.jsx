@@ -180,7 +180,7 @@ const StatusBadge = ({ status }) => {
     PLANNED: 'bg-blue-500/15 text-blue-400',
     ONGOING: 'bg-emerald-500/15 text-emerald-400',
     COMPLETED: 'bg-gray-500/15 text-gray-400',
-    CANCLEED: 'bg-red-500/15 text-red-400',
+    CANCELLED: 'bg-red-500/15 text-red-400',
   };
   return (
     <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium mt-0.5 ${cfg[status] || cfg.PLANNED}`}>

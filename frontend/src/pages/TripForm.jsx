@@ -7,7 +7,7 @@ const STATUSES = [
   { value: 'PLANNED', label: 'Planned' },
   { value: 'ONGOING', label: 'Ongoing' },
   { value: 'COMPLETED', label: 'Completed' },
-  { value: 'CANCLEED', label: 'Cancelled' },
+  { value: 'CANCELLED', label: 'Cancelled' },
 ];
 
 const inputCls = "w-full px-3 py-2.5 bg-[#0a1020] border border-gray-700/50 rounded-xl text-white text-sm placeholder-gray-600 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/25 transition-all";

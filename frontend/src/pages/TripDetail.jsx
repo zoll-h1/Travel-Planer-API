@@ -21,7 +21,7 @@ const STATUS_CFG = {
   PLANNED:   { cls: 'bg-blue-500/15 text-blue-400 border-blue-500/25', dot: 'bg-blue-400' },
   ONGOING:   { cls: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25', dot: 'bg-emerald-400' },
   COMPLETED: { cls: 'bg-gray-500/15 text-gray-400 border-gray-500/25', dot: 'bg-gray-400' },
-  CANCLEED:  { cls: 'bg-red-500/15 text-red-400 border-red-500/25', dot: 'bg-red-400' },
+  CANCELLED: { cls: 'bg-red-500/15 text-red-400 border-red-500/25', dot: 'bg-red-400' },
 };
 
 const TripDetail = () => {
@@ -123,7 +123,7 @@ const TripDetail = () => {
             </div>
             <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border shrink-0 ${cfg.cls}`}>
               <span className={`w-2 h-2 rounded-full ${cfg.dot}`} />
-              {trip.status === 'CANCLEED' ? 'Cancelled' : trip.status.charAt(0) + trip.status.slice(1).toLowerCase()}
+              {trip.status === 'CANCELLED' ? 'Cancelled' : trip.status.charAt(0) + trip.status.slice(1).toLowerCase()}
             </span>
           </div>
 

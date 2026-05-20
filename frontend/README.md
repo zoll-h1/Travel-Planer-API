@@ -8,7 +8,7 @@ A modern, professional React-based frontend for the Travel Planner API. Built wi
 - ✅ **Trip Management** - Create, Read, Update, Delete trips
 - ✅ **Activity Management** - Add activities to trips with types and costs
 - ✅ **Budget Tracking** - Visual budget tracker showing planned vs actual spending
-- ✅ **Responsive Design** - Professional black & yellow theme with Tailwind CSS
+- ✅ **Responsive Design** - Professional dark blue theme with Tailwind CSS
 - ✅ **Protected Routes** - Secure pages requiring authentication
 - ✅ **Status Filtering** - Filter trips by status (Planned, Ongoing, Completed)
 
@@ -18,7 +18,7 @@ A modern, professional React-based frontend for the Travel Planner API. Built wi
 - **Vite 8.0** - Fast build tool and dev server
 - **React Router 7.15** - Client-side routing
 - **Axios 1.16** - HTTP client with interceptors
-- **Tailwind CSS 4.3** - Utility-first CSS framework
+- **Tailwind CSS 3.4** - Utility-first CSS framework
 - **date-fns 4.1** - Modern date utility library
 
 ## 📦 Installation
@@ -26,7 +26,7 @@ A modern, professional React-based frontend for the Travel Planner API. Built wi
 ### Prerequisites
 
 - Node.js 20+ and npm
-- Backend API running on http://localhost:8080
+- Backend API running on http://localhost:8081
 
 ### Setup
 
@@ -45,7 +45,7 @@ The app will be available at \`http://localhost:5173\`
 ### 1. Register a New Account
 - Navigate to \`/register\`
 - Fill in username, email, and password
-- Token is automatically saved on successful registration
+- Redirects to login after successful registration
 
 ### 2. Login
 - Go to \`/login\`
@@ -104,16 +104,16 @@ src/
 Create/edit \`.env\` file:
 
 \`\`\`env
-VITE_API_BASE_URL=http://localhost:8080
+VITE_API_BASE_URL=http://localhost:8081
 \`\`\`
 
 ## 🎨 Theme
 
 Professional design with:
-- **Background**: Black (#000000)
-- **Cards**: Zinc-900 (#18181b)
-- **Primary**: Yellow-600 (#ca8a04)
-- **Status Colors**: Planned (Yellow), Ongoing (Green), Completed (Gray)
+- **Background**: Deep navy (#060c1a)
+- **Cards**: Dark blue (#0d1528)
+- **Primary**: Blue-600
+- **Status Colors**: Planned (Blue), Ongoing (Green), Completed (Gray), Cancelled (Red)
 
 ## 🔐 Security
 

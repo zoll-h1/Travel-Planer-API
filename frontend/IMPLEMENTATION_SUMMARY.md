@@ -56,7 +56,7 @@
   - 📌 Other
 
 ### 4. **UI/UX Enhancements**
-- Professional black & yellow theme
+- Professional dark blue theme
 - Responsive grid layouts
 - Loading states for all async operations
 - Error handling with user-friendly messages
@@ -117,7 +117,7 @@ travel-planner-frontend/
 To verify the implementation works correctly:
 
 ### 1. Authentication Flow
-- [ ] Register new user → Auto-redirects to dashboard
+- [ ] Register new user → Redirects to login
 - [ ] Login with credentials → Redirects to dashboard
 - [ ] Logout → Clears token and redirects to login
 - [ ] Access protected route without login → Redirects to login
@@ -153,7 +153,7 @@ To verify the implementation works correctly:
 ## 🚀 How to Run
 
 ### Prerequisites
-- Backend running on `http://localhost:8080`
+- Backend running on `http://localhost:8081`
 - Node.js 20+ installed
 
 ### Start Frontend
@@ -184,13 +184,13 @@ Access at: `http://localhost:5173`
 
 ✅ **All CRUD operations**: Full Create, Read, Update, Delete for trips and activities
 
-✅ **Real-time updates**: Budget tracker updates immediately when activities change
+✅ **Budget updates**: Budget tracker recalculates from current activities on the trip detail view
 
 ✅ **Responsive design**: Works on mobile, tablet, and desktop
 
 ✅ **Error handling**: User-friendly error messages throughout
 
-✅ **Security**: JWT authentication with automatic token refresh
+✅ **Security**: JWT authentication with automatic token injection and logout on 401
 
 ---
 
@@ -238,4 +238,3 @@ This project demonstrates:
 ---
 
 **Status**: ✅ Ready for use and demonstration
-
