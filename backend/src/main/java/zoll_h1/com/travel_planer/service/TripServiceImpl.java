@@ -7,6 +7,10 @@ import zoll_h1.com.travel_planer.dto.request.UpdateTripRequest;
 import zoll_h1.com.travel_planer.dto.response.ActivityResponse;
 import zoll_h1.com.travel_planer.dto.response.TripResponse;
 import zoll_h1.com.travel_planer.dto.response.TripSummaryResponse;
+import zoll_h1.com.travel_planer.exception.ForbiddenException;
+import zoll_h1.com.travel_planer.exception.ResourceNotFoundException;
+import zoll_h1.com.travel_planer.exception.UnauthorizedException;
+import zoll_h1.com.travel_planer.exception.ValidationException;
 import zoll_h1.com.travel_planer.model.Activity;
 import zoll_h1.com.travel_planer.model.Trip;
 import zoll_h1.com.travel_planer.model.TripStatus;
@@ -36,11 +40,11 @@ public class TripServiceImpl implements TripService{
     @Override
     public TripResponse createTrip(CreateTripRequest request, String userEmail) {
         if(request.getStartDate().isAfter(request.getEndDate())) {
-            throw new RuntimeException("Start date must be before end date");
+            throw new ValidationException("Start date must be before end date");
         }
         // Finding the authenticated user
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         // Create new Trip
         Trip trip = new Trip();
         trip.setTitle(request.getTitle());
@@ -60,7 +64,7 @@ public class TripServiceImpl implements TripService{
     @Override
     public List<TripSummaryResponse> getAllMyTrips(String userEmail, TripStatus status) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         // Get trips
         List<Trip> trips;
         if(status != null) {
@@ -76,24 +80,32 @@ public class TripServiceImpl implements TripService{
     @Override
     public TripResponse getTripById(Long tripId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
+         if(!trip.getUser().getId().equals(user.getId())) {
+             throw new ForbiddenException("You are not allowed to access trip trip");
+         }
         return mapToTripResponse(trip);
+
+
     }
     @Override
     public TripResponse updateTrip(Long tripId, UpdateTripRequest request, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
-        if(request.getStartDate() != null & request.getEndDate() != null) {
+        if(request.getStartDate() != null && request.getEndDate() != null) {
             if(request.getStartDate().isAfter(request.getEndDate())) {
-                throw new RuntimeException("Start date must be before end date");
+                throw new ValidationException("Start date must be before end date");
             }
+        }
+        if(!trip.getUser().getId().equals(user.getId())) {
+            throw new ForbiddenException("You are not allowed to access to this trip");
         }
         if(request.getTitle() != null) {
             trip.setTitle(request.getTitle());
@@ -123,17 +135,20 @@ public class TripServiceImpl implements TripService{
     @Override
     public void deleteTrip(Long tripId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new RuntimeException("Trip not found or access denied"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found or access denied"));
 
+        if(!trip.getUser().getId().equals(user.getId())){
+            throw new ForbiddenException("You are not allowed to this trip");
+        }
         tripRepository.delete(trip);
     }
     @Override
     public List<TripSummaryResponse> getUpcomingTrips(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         List<Trip> upcomingTrips = tripRepository.findUpcomingTripsByUserId(user.getId(), LocalDate.now());
 
@@ -144,7 +159,7 @@ public class TripServiceImpl implements TripService{
     @Override
     public Map<String , Object> getTripStats(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         List<Trip> allTrips = tripRepository.findByUserId(user.getId());
 
@@ -153,6 +168,13 @@ public class TripServiceImpl implements TripService{
         BigDecimal totalBudget = allTrips.stream()
                 .map(Trip::getBudget)
                 .filter(budget -> budget != null)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalActivityCost = allTrips
+                .stream()
+                .flatMap(trip -> trip.getActivities().stream())
+                .map(Activity::getCost)
+                .filter(cost -> cost != null)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         long plannedCount = allTrips.stream()
@@ -174,6 +196,7 @@ public class TripServiceImpl implements TripService{
         Map<String , Object> stats = new HashMap<>();
         stats.put("totalTrips", totalTrips);
         stats.put("totalBudget", totalBudget);
+        stats.put("totalCost", totalActivityCost);
         stats.put("plannedCount", plannedCount);
         stats.put("ongoingCount", ongoingCount);
         stats.put("completedCount", completedCount);

@@ -26,10 +26,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
         ErrorResponse error = new ErrorResponse(
-                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.UNAUTHORIZED.value(),
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(error);
     }
 
@@ -68,4 +68,13 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex) {
+        ErrorResponse error =  new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "Forbidden error occurred: " + ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(error);
+    }
 }
