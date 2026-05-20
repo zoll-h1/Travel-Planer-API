@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import zoll_h1.com.travel_planer.dto.request.LoginRequest;
 import zoll_h1.com.travel_planer.dto.request.RegisterRequest;
+import zoll_h1.com.travel_planer.dto.request.UpdateProfileRequest;
 import zoll_h1.com.travel_planer.dto.response.LoginResponse;
 import zoll_h1.com.travel_planer.dto.response.UserResponse;
 import zoll_h1.com.travel_planer.service.AuthService;
@@ -36,10 +37,17 @@ public class AuthController {
         return authService.login(request);
     }
 
-    // Getting current user
+    // Get current user
     @GetMapping("/me")
     public UserResponse getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
         return authService.getCurrentUser(email);
+    }
+
+    // Updating current user
+    @PutMapping("/me")
+    public UserResponse updateCurrentUser(@Valid @RequestBody UpdateProfileRequest request , Authentication authentication) {
+        String email = authentication.getName();
+        return authService.updateCurrentUser(email, request);
     }
 }

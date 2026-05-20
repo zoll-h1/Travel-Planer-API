@@ -34,7 +34,7 @@ public class CreateTripRequest {
     @Future(message = "End date must be in the future")
     private LocalDate endDate;
 
-    @DecimalMin(value = "0.0", inclusive = true, message = "Budget must not be positive")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Budget must not be negative")
     @Digits(integer = 8, fraction = 2, message = "Budget must have at most 8 digits and 2 decimal places")
     private BigDecimal budget;
 }

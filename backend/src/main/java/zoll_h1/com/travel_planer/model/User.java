@@ -27,6 +27,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(length = 1000)
+    private String bio;
+
+    @Column(name = "avatar_url", length = 500)
+    private String avatarUrl;
+
+    @Column(name = "travel_preferences", length = 1000)
+    private String travelPreferences;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
